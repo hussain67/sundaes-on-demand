@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Row from "react-bootstrap/Row";
+import AlertBanner from "../commons/AlertBanner";
 
 import ScoopOption from "./ScoopOptions";
 import ToppingOption from "./ToppingOptions";
 
 export default function Options({ optionType }) {
 	const [items, setItems] = useState([]);
+	const [error, setError] = useState(false);
 
 	useEffect(() => {
 		axios
@@ -15,10 +17,13 @@ export default function Options({ optionType }) {
 				setItems(response.data);
 			})
 			.catch(error => {
-				//TODO latter
+				setError(true);
 			});
 	}, [optionType]);
 
+	if (error) {
+		return <AlertBanner />;
+	}
 	const ItemComponent = optionType === "scoops" ? ScoopOption : ToppingOption;
 
 	const optionItems = items.map(item => (
