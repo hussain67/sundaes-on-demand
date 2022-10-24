@@ -1,11 +1,18 @@
+import Container from "react-bootstrap/Container";
+
 import "./App.css";
+import { OrderDetailsProvider } from "./contexts/OrderTotails";
+import OrderEntry from "./pages/entry/OrderEntry";
 import SummaryForm from "./pages/summary/SummaryForm";
 
 function App() {
 	return (
-		<div className="App">
-			<SummaryForm />
-		</div>
+		<Container>
+			<OrderDetailsProvider>
+				{/* Summery page and OrderEntry page need provider */}
+				<OrderEntry />
+			</OrderDetailsProvider>
+		</Container>
 	);
 }
 
