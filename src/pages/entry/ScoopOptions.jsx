@@ -1,7 +1,7 @@
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
-import { useOrderTetails } from "../../contexts/OrderTotails";
+import { useOrderTetails } from "../../contexts/OrderDetails";
 
 export default function ScoopOption({ name, imagePath }) {
 	const { updateItemCount } = useOrderTetails();
@@ -12,7 +12,7 @@ export default function ScoopOption({ name, imagePath }) {
 		<Col style={{ textAlign: "center" }}>
 			<img
 				style={{ width: "75%" }}
-				src={`http:localhost:3000/${imagePath}`}
+				src={`http://localhost:3030/${imagePath}`}
 				alt={`${name} scoop`}
 			/>
 			<Form.Group
