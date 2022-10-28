@@ -2,7 +2,7 @@ import { render, screen } from "../../../test-utils/testing-library-utils";
 import userEvent from "@testing-library/user-event";
 import Options from "../Options";
 import OrderEntry from "../OrderEntry";
-
+const user = userEvent.setup();
 test("update scoop subtotal when scoops change", async () => {
 	render(<Options optionType={"scoops"} />);
 
@@ -12,15 +12,15 @@ test("update scoop subtotal when scoops change", async () => {
 
 	//update vanila scoops to 1 and check the subtotal
 	const vanillaInput = await screen.findByRole("spinbutton", { name: "Vanilla" });
-	await userEvent.clear(vanillaInput);
-	await userEvent.type(vanillaInput, "1");
+	await user.clear(vanillaInput);
+	await user.type(vanillaInput, "1");
 	expect(scoopsSubtotal).toHaveTextContent("2.00");
 
 	//update chocolet scoop to 2 and check the subtotal
 	const chocolateInput = await screen.findByRole("spinbutton", { name: "Chocolate" });
-	userEvent.clear(chocolateInput);
+	await user.clear(chocolateInput);
+	await user.type(chocolateInput, "2");
 
-	userEvent.type(chocolateInput, "2");
 	expect(scoopsSubtotal).toHaveTextContent("6.00");
 });
 
@@ -33,16 +33,16 @@ test("update toppings subtotal when toppings change", async () => {
 
 	//Add Cherries and check the subtotal
 	const cherriesCheckbox = await screen.findByRole("checkbox", { name: "Cherries" });
-	await userEvent.click(cherriesCheckbox);
+	await user.click(cherriesCheckbox);
 	expect(toppingsSubtotal).toHaveTextContent("1.50");
 
 	// add Hot Fudge and check subtotal
 	const hotFudgeCheckbox = await screen.findByRole("checkbox", { name: "Hot fudge" });
-	await userEvent.click(hotFudgeCheckbox);
+	await user.click(hotFudgeCheckbox);
 	expect(toppingsSubtotal).toHaveTextContent("3.00");
 
 	// Remove Hot Fudge and check subtotal
-	await userEvent.click(hotFudgeCheckbox);
+	await user.click(hotFudgeCheckbox);
 	expect(toppingsSubtotal).toHaveTextContent("1.50");
 });
 
@@ -54,13 +54,13 @@ describe("grand total", () => {
 		expect(grandTotal).toHaveTextContent("$0.00");
 		//update vanila scoops to 1 and check the grand total
 		const vanillaInput = await screen.findByRole("spinbutton", { name: "Vanilla" });
-		await userEvent.clear(vanillaInput);
-		await userEvent.type(vanillaInput, "1");
+		await user.clear(vanillaInput);
+		await user.type(vanillaInput, "1");
 		expect(grandTotal).toHaveTextContent("$2.00");
 
 		//Add Cherries topping and check the grand total
 		const cherriesCheckbox = await screen.findByRole("checkbox", { name: "Cherries" });
-		await userEvent.click(cherriesCheckbox);
+		await user.click(cherriesCheckbox);
 		expect(grandTotal).toHaveTextContent("$3.50");
 	});
 	test("grand total updates properly if toppings is added first", async () => {
@@ -69,13 +69,13 @@ describe("grand total", () => {
 
 		//Add Cherries topping and check the grand total
 		const cherriesCheckbox = await screen.findByRole("checkbox", { name: "Cherries" });
-		await userEvent.click(cherriesCheckbox);
+		await user.click(cherriesCheckbox);
 		expect(grandTotal).toHaveTextContent("$1.50");
 
 		//update vanila scoops to 1 and check the grand total
 		const vanillaInput = await screen.findByRole("spinbutton", { name: "Vanilla" });
-		await userEvent.clear(vanillaInput);
-		await userEvent.type(vanillaInput, "1");
+		await user.clear(vanillaInput);
+		await user.type(vanillaInput, "1");
 		expect(grandTotal).toHaveTextContent("$3.50");
 	});
 
@@ -85,16 +85,16 @@ describe("grand total", () => {
 
 		//Add Cherries topping and check the grand total
 		const cherriesCheckbox = await screen.findByRole("checkbox", { name: "Cherries" });
-		await userEvent.click(cherriesCheckbox);
+		await user.click(cherriesCheckbox);
 
 		//update vanila scoops to 1 and check the grand total
 		const vanillaInput = await screen.findByRole("spinbutton", { name: "Vanilla" });
-		await userEvent.clear(vanillaInput);
-		await userEvent.type(vanillaInput, "1");
+		await user.clear(vanillaInput);
+		await user.type(vanillaInput, "1");
 
-		//remove Cherries topping and check the grand total
+		// remove Cherries topping and check the grand total
 
-		await userEvent.click(cherriesCheckbox);
+		await user.click(cherriesCheckbox);
 
 		expect(grandTotal).toHaveTextContent("$2.00");
 	});

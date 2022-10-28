@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
 import { useOrderTetails } from "../../contexts/OrderDetails";
 import { formatCurrency } from "../../utilities";
 import Options from "./Options";
 
-export default function OrderEntry() {
-	const [grandTotal, setGrandTotal] = useState("$0.00");
-
+export default function OrderEntry({ setOrderPhase }) {
 	const { totals } = useOrderTetails();
-
-	useEffect(() => {
-		setGrandTotal(formatCurrency(totals.scoops + totals.toppings));
-	}, [totals]);
+	const disabled = totals.scoops <= 0;
 
 	return (
 		<div>
 			<Options optionType={"scoops"} />
 			<Options optionType={"toppings"} />
-			<h2>Grand total: {grandTotal}</h2>
+			<h2>Grand total: {formatCurrency(totals.scoops + totals.toppings)}</h2>
+			<button
+				disabled={disabled}
+				onClick={() => setOrderPhase("review")}
+			>
+				Submit order
+			</button>
 		</div>
 	);
 }

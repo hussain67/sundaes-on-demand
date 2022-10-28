@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-const SummaryForm = () => {
+const SummaryForm = ({ setOrderPhase }) => {
 	const [tcChecked, setTcChecked] = useState(false);
+
+	function handleSubmit(e) {
+		e.preventDefault();
+		setOrderPhase("completed");
+	}
 
 	const checkboxLabel = (
 		<span>
@@ -13,7 +18,7 @@ const SummaryForm = () => {
 	);
 	return (
 		<>
-			<Form>
+			<Form onSubmit={handleSubmit}>
 				<Form.Group controlId="terms-and-condition">
 					<Form.Check
 						type="checkbox"
